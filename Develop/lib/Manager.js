@@ -8,8 +8,14 @@ class Manager extends Employee {
         super(name, id, email);
         this.officeNumber = officeNumber;
     };
+    // gets officenumber of manager
+    getOfficeNumber() {
+        return this.officeNumber;
+    }
     // returns the role of Manager for the manager subclass
     getRole() {
         return 'Manager';
-    }
-}
+    };
+};
+
+module.exports = Manager;

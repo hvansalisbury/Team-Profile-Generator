@@ -11,9 +11,11 @@ class Engineer extends Employee {
     // gets github username
     getGithub() {
         return this.github;
-    }
+    };
     // retuns role of engineer
     getRole() {
         return 'Engineer';
-    }
-}
+    };
+};
+
+module.exports = Engineer;

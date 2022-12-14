@@ -11,7 +11,7 @@ class Employee {
         return this.name;
     };
     // gets employee ID
-    getID() {
+    getId() {
         return this.id;
     };
     // gets employee email
@@ -22,6 +22,6 @@ class Employee {
     getRole() {
         return 'Employee';
     };
-}
+};
 // exports Employee class so other files can have access to this code
 module.exports = Employee;
