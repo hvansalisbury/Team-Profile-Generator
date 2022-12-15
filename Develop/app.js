@@ -12,12 +12,17 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 // empty array to store team members
 const employees = [];
-// function to create directory if it doesn't already exist, and write the team.html file
-const makeHtml = () => {
+// function to check if the output directory exists
+const checkDir = () => {
     if (!fs.existsSync(OUTPUT_DIR)) {
         fs.mkdirSync(OUTPUT_DIR);
-    }
-    fs.writeFileSync(outputPath, render(employees));
+    };
+};
+// function to write the team.html file
+const makeHtml = () => {
+    const teamFile = render(employees);
+    checkDir();
+    fs.writeFileSync(outputPath, teamFile);
 };
 // function to only allow numbers as in input for id and office number fields
 const validateNum = async (input) => {
@@ -37,6 +42,16 @@ const validateInput = async (input) => {
         return false;
     };
 };
+// function to make sure @ is used in the email address
+const validateEmail = async (input) => {
+    if (input.includes('@')) {
+        return true;
+    } else {
+        console.log('Email addresses require the @ symbol');
+        return false;
+    };
+};
+
 // function to get employee details
 const buildTeam = () => {
     // inquirer prompts questions for user to answer about the employee
@@ -64,7 +79,7 @@ const buildTeam = () => {
                 type: 'input',
                 name: 'employeeEmail',
                 message: 'Employee email',
-                validate: validateInput,
+                validate: validateEmail,
             },
             {
                 type: 'number',
@@ -108,7 +123,6 @@ const buildTeam = () => {
             // adds employee object to team array
             employees.push(addedEmployee);
             // if user wishes to add another employee, asks questions again, otherwise returns team array
-            console.log(employees)
             if (answers.anotherEmployee) {
                 return buildTeam();
             } else {
@@ -116,13 +130,13 @@ const buildTeam = () => {
             };
         });
 };
-
-
+// function to start the prompt
 const init = () => {
-    buildTeam()
-}
-
-init()
+    console.log('Please enter the appropriate response for each prompt');
+    buildTeam();
+};
+// runs init function
+init();
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
@@ -132,7 +146,6 @@ init()
 // `output` folder. You can use the variable `outputPath` above target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
-
 
 // HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
 // and Intern classes should all extend from a class named Employee; see the directions
