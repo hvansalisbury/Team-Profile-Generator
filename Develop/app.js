@@ -12,56 +12,80 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 // empty array to store team members
 const employees = [];
+// function to create directory if it doesn't already exist, and write the team.html file
 const makeHtml = () => {
     if (!fs.existsSync(OUTPUT_DIR)) {
         fs.mkdirSync(OUTPUT_DIR);
     }
     fs.writeFileSync(outputPath, render(employees));
-}
+};
+// function to only allow numbers as in input for id and office number fields
+const validateNum = async (input) => {
+    if (!isNaN(input)) {
+        return true;
+    } else {
+        console.log('Please enter a number, press up and delete previous entry');
+        return false;
+    };
+};
+// function to does not allow blank inputs for input fields
+const validateInput = async (input) => {
+    if (input !== '') {
+        return true;
+    } else {
+        console.log('This field does not accept blank values, press up and delete previous entry');
+        return false;
+    };
+};
 // function to get employee details
 const buildTeam = () => {
     // inquirer prompts questions for user to answer about the employee
     inquirer
-    .prompt([
-        {
-            type: 'list',
-            name: 'position',
-            message: 'Employee Position',
-            choices: ['Manager', 'Engineer', 'Intern'],
-        },
+        .prompt([
+            {
+                type: 'list',
+                name: 'position',
+                message: 'Employee Position',
+                choices: ['Manager', 'Engineer', 'Intern'],
+            },
             {
                 type: 'input',
                 name: 'employeeName',
                 message: 'Employee name',
-
+                validate: validateInput,
             },
             {
                 type: 'number',
                 name: 'employeeID',
                 message: 'Employee ID number',
+                validate: validateNum,
             },
             {
                 type: 'input',
                 name: 'employeeEmail',
                 message: 'Employee email',
+                validate: validateInput,
             },
             {
                 type: 'number',
                 name: 'managerOffice',
                 message: 'Office number of Manager',
                 when: (answers) => answers.position === 'Manager',
+                validate: validateNum,
             },
             {
                 type: 'input',
                 name: 'githubUsername',
                 message: 'Github username',
                 when: (answers) => answers.position === 'Engineer',
+                validate: validateInput,
             },
             {
                 type: 'input',
                 name: 'internSchool',
                 message: "Intern's school",
                 when: (answers) => answers.position === 'Intern',
+                validate: validateInput,
             },
             {
                 type: 'confirm',
