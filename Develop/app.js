@@ -11,18 +11,24 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 // connects to htmlRenderer.js
 const render = require("./lib/htmlRenderer");
 // empty array to store team members
-const team = [];
+const employees = [];
+const makeHtml = () => {
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR);
+    }
+    fs.writeFileSync(outputPath, render(employees));
+}
 // function to get employee details
 const buildTeam = () => {
     // inquirer prompts questions for user to answer about the employee
     inquirer
-        .prompt([
-            {
-                type: 'list',
-                name: 'position',
-                message: 'Employee Position',
-                choices: ['Manager', 'Engingeer', 'Intern'],
-            },
+    .prompt([
+        {
+            type: 'list',
+            name: 'position',
+            message: 'Employee Position',
+            choices: ['Manager', 'Engineer', 'Intern'],
+        },
             {
                 type: 'input',
                 name: 'employeeName',
@@ -76,15 +82,23 @@ const buildTeam = () => {
                 addedEmployee = new Intern(answers.employeeName, answers.employeeID, answers.employeeEmail, answers.internSchool);
             };
             // adds employee object to team array
-            team.push(addedEmployee)
+            employees.push(addedEmployee);
             // if user wishes to add another employee, asks questions again, otherwise returns team array
-            if (anotherEmployee) {
+            console.log(employees)
+            if (answers.anotherEmployee) {
                 return buildTeam();
             } else {
-                return team;
-            }
-    })
+                return makeHtml();
+            };
+        });
+};
+
+
+const init = () => {
+    buildTeam()
 }
+
+init()
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
