@@ -10,6 +10,7 @@ This application generates an html file that shows information about each of the
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Walkthrough](#walkthrough)
 - [License](#license)
 - [Contributing](#contributing)
 - [Tests](#tests)
@@ -22,6 +23,10 @@ First clone all of the files from Github. Then open the command line and navigat
 ## Usage
 
 Once in the command line and in the "Develop" folder, open the application by typing "node app.js". Answer each of the prompts correctly. When completed, type "n" when asked to enter another employee. An output folder will be created. Inside that folder will be the team.html file. Open the html file in your browser to see all of your employees that you entered.
+
+## Walkthrough
+
+[Walkthrough Video](https://drive.google.com/file/d/1q73cIZM_Ct3a8ncQZNmxoJWTUfazfzfy/view)
 
 ## License
 
